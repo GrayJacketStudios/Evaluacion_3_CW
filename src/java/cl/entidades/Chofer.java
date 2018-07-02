@@ -28,7 +28,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Chofer.findByNombre", query = "SELECT c FROM Chofer c WHERE c.nombre = :nombre")
     , @NamedQuery(name = "Chofer.findByTelefono", query = "SELECT c FROM Chofer c WHERE c.telefono = :telefono")
     , @NamedQuery(name = "Chofer.findByEmail", query = "SELECT c FROM Chofer c WHERE c.email = :email")
-    , @NamedQuery(name = "Chofer.findByClave", query = "SELECT c FROM Chofer c WHERE c.clave = :clave")})
+    , @NamedQuery(name = "Chofer.findByClave", query = "SELECT c FROM Chofer c WHERE c.clave = :clave")
+    , @NamedQuery(name = "Chofer.iniciarSesion", query = "SELECT c FROM Chofer c WHERE c.clave = :clave AND c.rut = :rut")})
 public class Chofer implements Serializable {
 
     private static final long serialVersionUID = 1L;
