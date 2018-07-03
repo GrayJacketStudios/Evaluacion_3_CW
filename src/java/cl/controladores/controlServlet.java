@@ -7,9 +7,14 @@ package cl.controladores;
 
 import cl.beans.ServicioBeanLocal;
 import cl.entidades.Chofer;
+import cl.entidades.Viaje;
 import directorio.Hash;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +29,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "controlServlet", urlPatterns = {"/control.do"})
 public class controlServlet extends HttpServlet {
 
+    
+    private SimpleDateFormat formatFecha = new SimpleDateFormat("yyy-MM-dd");
+    private SimpleDateFormat formatHora = new SimpleDateFormat("hh:mm");
     @EJB
     private ServicioBeanLocal servicioBean;
 
@@ -47,6 +55,9 @@ public class controlServlet extends HttpServlet {
                break;
            case "registrar":
                registrar(request, response);
+               break;
+           case "masViajes":
+               añadeViaje(request, response);
                break;
        }
     }
@@ -136,6 +147,54 @@ public class controlServlet extends HttpServlet {
            System.out.println("Errores: "+errores);
        }
        request.getRequestDispatcher("index.jsp").forward(request,response);
+    }
+    
+    
+    
+    protected void añadeViaje(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+       String destino = request.getParameter("destino");
+       String fecha= request.getParameter("fecha");
+       String hora = request.getParameter("hora");
+       String pasajeros = request.getParameter("pasajeros");
+       String errores = "";
+       if(destino.isEmpty()){
+            errores = "Debes ingresar el destino.<br>";
+        }
+       if(fecha.isEmpty()){
+            errores += "Debes ingresar la fecha.<br>";
+        }
+       if(hora.isEmpty()){
+            errores += "Debes ingresar la hora.<br>";
+        }
+       if(pasajeros.isEmpty()){
+            errores += "Debes ingresar la cantidad de pasajeros.<br>";
+        }
+       
+       
+       
+       if(errores.equals("")){
+           try {
+               Viaje viaje = new Viaje();
+               viaje.setDestino(destino);
+               viaje.setFecha(formatFecha.parse(fecha));
+               viaje.setHora(formatHora.parse(hora));
+               viaje.setCantidadPasajeros(Integer.parseInt(pasajeros));
+               viaje.setRutChofer((Chofer) request.getSession().getAttribute("user"));
+               
+               servicioBean.guardar(viaje);
+               request.setAttribute("msg", "Viaje añadido correctamente.");
+               System.out.println("Viaje añadido correctamente.");
+           } catch (ParseException ex) {
+               Logger.getLogger(controlServlet.class.getName()).log(Level.SEVERE, null, ex);
+           }
+               
+       }
+       else{
+           request.setAttribute("msg", errores);
+           System.out.println("Errores: "+errores);
+       }
+       request.getRequestDispatcher("masViajes.jsp").forward(request,response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

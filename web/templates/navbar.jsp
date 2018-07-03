@@ -8,7 +8,7 @@
             <li><a href="registro.jsp">Registrarse</a></li>
         </c:if>
         <c:if test="${not empty sessionScope.user}">
-            <li><a href="viajes.jsp">Inicio</a></li>
+            <li><a href="inicio.jsp">Inicio</a></li>
             <li><a href="masViajes.jsp">Agregar viaje</a></li>
             <li><a href="cerrarSesion.jsp">Cerrar sesión</a></li>
         </c:if>
