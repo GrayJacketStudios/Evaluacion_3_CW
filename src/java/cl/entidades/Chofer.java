@@ -6,14 +6,18 @@
 package cl.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,6 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Chofer.findByClave", query = "SELECT c FROM Chofer c WHERE c.clave = :clave")
     , @NamedQuery(name = "Chofer.iniciarSesion", query = "SELECT c FROM Chofer c WHERE c.clave = :clave AND c.rut = :rut")})
 public class Chofer implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rutChofer")
+    private List<Viaje> viajeList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -128,6 +135,15 @@ public class Chofer implements Serializable {
     @Override
     public String toString() {
         return "cl.entidades.Chofer[ rut=" + rut + " ]";
+    }
+
+    @XmlTransient
+    public List<Viaje> getViajeList() {
+        return viajeList;
+    }
+
+    public void setViajeList(List<Viaje> viajeList) {
+        this.viajeList = viajeList;
     }
     
 }

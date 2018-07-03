@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -33,8 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Viaje.findByDestino", query = "SELECT v FROM Viaje v WHERE v.destino = :destino")
     , @NamedQuery(name = "Viaje.findByFecha", query = "SELECT v FROM Viaje v WHERE v.fecha = :fecha")
     , @NamedQuery(name = "Viaje.findByHora", query = "SELECT v FROM Viaje v WHERE v.hora = :hora")
-    , @NamedQuery(name = "Viaje.findByCantidadPasajeros", query = "SELECT v FROM Viaje v WHERE v.cantidadPasajeros = :cantidadPasajeros")
-    , @NamedQuery(name = "Viaje.findByRutChofer", query = "SELECT v FROM Viaje v WHERE v.rutChofer = :rutChofer")})
+    , @NamedQuery(name = "Viaje.findByCantidadPasajeros", query = "SELECT v FROM Viaje v WHERE v.cantidadPasajeros = :cantidadPasajeros")})
 public class Viaje implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,9 +58,9 @@ public class Viaje implements Serializable {
     @Basic(optional = false)
     @Column(name = "cantidadPasajeros")
     private int cantidadPasajeros;
-    @Basic(optional = false)
-    @Column(name = "rutChofer")
-    private String rutChofer;
+    @JoinColumn(name = "rutChofer", referencedColumnName = "rut")
+    @ManyToOne(optional = false)
+    private Chofer rutChofer;
 
     public Viaje() {
     }
@@ -68,13 +69,12 @@ public class Viaje implements Serializable {
         this.idViaje = idViaje;
     }
 
-    public Viaje(Integer idViaje, String destino, Date fecha, Date hora, int cantidadPasajeros, String rutChofer) {
+    public Viaje(Integer idViaje, String destino, Date fecha, Date hora, int cantidadPasajeros) {
         this.idViaje = idViaje;
         this.destino = destino;
         this.fecha = fecha;
         this.hora = hora;
         this.cantidadPasajeros = cantidadPasajeros;
-        this.rutChofer = rutChofer;
     }
 
     public Integer getIdViaje() {
@@ -117,11 +117,11 @@ public class Viaje implements Serializable {
         this.cantidadPasajeros = cantidadPasajeros;
     }
 
-    public String getRutChofer() {
+    public Chofer getRutChofer() {
         return rutChofer;
     }
 
-    public void setRutChofer(String rutChofer) {
+    public void setRutChofer(Chofer rutChofer) {
         this.rutChofer = rutChofer;
     }
 

@@ -48,7 +48,7 @@ public class ServicioBean implements ServicioBeanLocal {
     
     @Override
     public List<Viaje> getViajes() {
-        return em.createQuery("Select v from Viaje v").getResultList();
+        return em.createQuery("Select v from Viaje v ORDER BY v.destino ASC, v.fecha ASC, v.hora ASC ").getResultList();
     }
 
     @Override
