@@ -16,8 +16,9 @@
 %>
 
 
-<c:set var="viajes" scope="page" value="<%=servicio.getViajes((Chofer)session.getAttribute("user"))%>"/>
-
+<c:if test="${not empty sessionScope.user}">
+    <c:set var="viajes" scope="page" value="<%=servicio.getViajes((Chofer)session.getAttribute("user"))%>"/>
+</c:if>
 
 
   <div class="row">
