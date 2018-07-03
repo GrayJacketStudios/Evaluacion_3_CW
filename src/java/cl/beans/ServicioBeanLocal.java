@@ -20,7 +20,7 @@ public interface ServicioBeanLocal {
 
     void guardar(Object object);
 
-    List<Viaje> getViajes();
+    List<Viaje> getViajes(Chofer chofchof);
 
     Chofer buscarChofer(String rut);
     

@@ -1,5 +1,6 @@
 
 
+<%@page import="cl.entidades.Chofer"%>
 <%@page import="javax.naming.InitialContext"%>
 <%@page import="cl.beans.ServicioBeanLocal"%>
 <%@include file="templates/header.jsp" %>
@@ -11,8 +12,11 @@
 <%
   InitialContext ctx=new InitialContext();
   servicio=(ServicioBeanLocal)ctx.lookup("java:global/Viajes/ServicioBean!cl.beans.ServicioBeanLocal");
+  
 %>
-<c:set var="viajes" scope="page" value="<%=servicio.getViajes()%>"/>
+
+
+<c:set var="viajes" scope="page" value="<%=servicio.getViajes((Chofer)session.getAttribute("user"))%>"/>
 
 
 
@@ -29,6 +33,7 @@
                                         <td>${v.idViaje}</td>
                                         <td>${v.rutChofer.nombre}</td>
                                         <td>${v.destino}</td>
+                                        
                                         <td><fmt:formatDate value="${v.fecha}" pattern="dd/MM/yyyy" /></td>
                                         <td><fmt:formatDate value="${v.hora}" pattern="HH:mm" /></td>
                                         <td>${v.cantidadPasajeros}</td>

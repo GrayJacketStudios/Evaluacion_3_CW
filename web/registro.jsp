@@ -31,7 +31,7 @@
                 <label for="telefono">Telefono</label>
               </div>
               <div class="input-field col s12">
-                <input id="correo" type="text" class="validate" name="correo" required>
+                <input id="correo" type="email" class="validate" name="correo" required>
                 <label for="correo">Correo</label>
               </div>
               

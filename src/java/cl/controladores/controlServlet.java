@@ -121,6 +121,9 @@ public class controlServlet extends HttpServlet {
        if(correo.isEmpty()){
             errores += "Debes ingresar el correo.<br>";
         }
+       if(!clave.equals(clave2)){
+           errores += "Las claves deben deben coincidir.";
+       }
        
        
        if(errores.equals("")){
