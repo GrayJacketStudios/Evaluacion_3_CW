@@ -77,8 +77,9 @@ public class controlServlet extends HttpServlet {
                 errores += "Usuario o contraseña incorrectos.<br>";
             }
         }
+        System.out.println("Errores: "+errores);
         request.setAttribute("msg", errores);
-        response.sendRedirect("index.jsp");
+        request.getRequestDispatcher("index.jsp").forward(request,response);
         
     }
     
@@ -122,6 +123,7 @@ public class controlServlet extends HttpServlet {
                
                servicioBean.guardar(user);
                request.setAttribute("msg", "Chofer añadido correctamente.");
+               System.out.println("Chofer añadido correctamente.");
                
            }
            else{
@@ -131,6 +133,7 @@ public class controlServlet extends HttpServlet {
        }
        else{
            request.setAttribute("msg", errores);
+           System.out.println("Errores: "+errores);
        }
        request.getRequestDispatcher("index.jsp").forward(request,response);
     }
