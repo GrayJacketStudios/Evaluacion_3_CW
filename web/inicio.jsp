@@ -4,6 +4,9 @@
 <%@page import="cl.beans.ServicioBeanLocal"%>
 <%@include file="templates/header.jsp" %>
 
+<%@include file="middleware/checkSesion.jsp" %>
+
+
 <%!private ServicioBeanLocal servicio; %>
 <%
   InitialContext ctx=new InitialContext();

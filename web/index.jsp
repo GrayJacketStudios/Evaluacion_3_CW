@@ -1,7 +1,7 @@
 
 
 <%@include file="templates/header.jsp" %>
-
+<%@include file="middleware/checkNotSession.jsp" %>
 
 
   <div class="row">

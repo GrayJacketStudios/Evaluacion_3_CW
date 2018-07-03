@@ -1,5 +1,6 @@
 
 <%@include file="templates/header.jsp" %>
+<%@include file="middleware/checkSesion.jsp" %>
 
   <div class="row">
     <div class="col s12 m10 offset-m1">
