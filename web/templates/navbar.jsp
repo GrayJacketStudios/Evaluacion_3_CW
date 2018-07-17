@@ -13,6 +13,7 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="inicio.jsp">Inicio</a></li>
             <li><a href="masViajes.jsp">Agregar viaje</a></li>
+            <li><a href="masViajes.jsp">Mis datos</a></li>
             <li><a href="cerrarSesion.jsp">Cerrar sesión</a></li>
         </c:if>
             

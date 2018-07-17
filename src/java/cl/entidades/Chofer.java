@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -35,6 +36,11 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Chofer.findByClave", query = "SELECT c FROM Chofer c WHERE c.clave = :clave")
     , @NamedQuery(name = "Chofer.iniciarSesion", query = "SELECT c FROM Chofer c WHERE c.clave = :clave AND c.rut = :rut")})
 public class Chofer implements Serializable {
+
+    @Basic(optional = false)
+    @Lob
+    @Column(name = "foto")
+    private byte[] foto;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rutChofer")
     private List<Viaje> viajeList;
@@ -144,6 +150,14 @@ public class Chofer implements Serializable {
 
     public void setViajeList(List<Viaje> viajeList) {
         this.viajeList = viajeList;
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
     }
     
 }
