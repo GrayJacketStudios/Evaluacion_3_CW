@@ -6,6 +6,7 @@
 package cl.beans;
 
 import cl.entidades.*;
+import com.mysql.jdbc.Blob;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -23,5 +24,9 @@ public interface ServicioBeanLocal {
     List<Viaje> getViajes(Chofer chofchof);
 
     Chofer buscarChofer(String rut);
+
+    Blob getImage(String rut);
+
+    void update(Object viejos);
     
 }

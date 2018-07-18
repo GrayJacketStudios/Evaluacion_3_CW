@@ -7,6 +7,7 @@ package cl.beans;
 
 import cl.entidades.Chofer;
 import cl.entidades.Viaje;
+import com.mysql.jdbc.Blob;
 import directorio.Hash;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -54,6 +55,24 @@ public class ServicioBean implements ServicioBeanLocal {
     @Override
     public Chofer buscarChofer(String rut) {
         return em.find(Chofer.class, rut);
+    }
+
+    @Override
+    public Blob getImage(String rut) {
+        try{
+            return (Blob) em.createQuery("Select c from Chofer c WHERE c.rut = '"+rut+"'")
+                    .getSingleResult();
+        }catch(Exception e){
+            return null;
+        }
+    }
+
+    @Override
+    public void update(Object nuevo) {
+        em.merge(nuevo);
+        em.flush();
+        
+        
     }
     
     

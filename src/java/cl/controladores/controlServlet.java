@@ -7,26 +7,40 @@ package cl.controladores;
 
 import cl.beans.ServicioBeanLocal;
 import cl.entidades.Chofer;
+import static cl.entidades.Chofer_.foto;
 import cl.entidades.Viaje;
+import com.mysql.jdbc.Blob;
 import directorio.Hash;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.persistence.metamodel.SingularAttribute;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author Sebita
  */
 @WebServlet(name = "controlServlet", urlPatterns = {"/control.do"})
+@MultipartConfig(location = "/tmp",
+                  fileSizeThreshold = 1024*1024,
+                  maxFileSize = 1024*1024*5,
+                  maxRequestSize = 1024*1024*5*5
+                )
 public class controlServlet extends HttpServlet {
 
     
@@ -58,6 +72,9 @@ public class controlServlet extends HttpServlet {
                break;
            case "masViajes":
                añadeViaje(request, response);
+               break;
+           case "guardaDatos":
+               guardaDatos(request, response);
                break;
        }
     }
@@ -199,6 +216,59 @@ public class controlServlet extends HttpServlet {
        }
        request.getRequestDispatcher("masViajes.jsp").forward(request,response);
     }
+    
+    protected void guardaDatos(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+       String rut = request.getParameter("rut");
+       String nombre= request.getParameter("nombre");
+       String telefono = request.getParameter("telefono");
+       String email = request.getParameter("email");
+       String pass1 = request.getParameter("password");
+       String pass2 = request.getParameter("password2");
+       
+       
+ InputStream inputStream = null; // input stream of the upload file
+         
+        // obtains the upload file part in this multipart request
+        Part filePart = request.getPart("foto");
+        if (filePart != null) {
+            // prints out some information for debugging
+            System.out.println(filePart.getName());
+            System.out.println(filePart.getSize());
+            System.out.println(filePart.getContentType());
+
+            // obtains input stream of the upload file
+            inputStream = filePart.getInputStream();
+        }
+       
+       
+       
+       
+    
+               Chofer user = servicioBean.buscarChofer(rut);
+
+               user.setRut(rut);
+               user.setNombre(nombre);
+               user.setTelefono(telefono);
+               user.setEmail(email);
+               if(!pass1.equals("")){
+                   user.setClave(Hash.md5(pass1));
+               }
+
+
+               
+               
+               servicioBean.update(user);
+
+               request.setAttribute("msg", "Usuario actualizado correctamente.");
+                request.getRequestDispatcher("mis_datos.jsp").forward(request,response);
+
+               
+    }
+
+    
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
